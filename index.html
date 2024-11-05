@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+<title>Read News</title>
+</head>
+
+<body>
+	<table>
+		<tr>
+			<td>
+				<h1>NEWS</h1>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			 <label for="keyword">Keyword:</label>
+  			<input type="text" id="keyword" name="Keyword">
+			<button type="button" onclick="getNews()">Search</button>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<ol><li>News-1</li><li>News-2</li><li>News-3</li></ol>
+			<div id="newsbox">News<br/></div>
+			</td>
+		</tr>
+	</table>
+	<script>
+	var HttpClient = function() {
+	    this.get = function(aUrl, aCallback) {
+	        var anHttpRequest = new XMLHttpRequest();
+	        anHttpRequest.onreadystatechange = function() { 
+	            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+	                aCallback(anHttpRequest.responseText);
+	        }
+
+	        anHttpRequest.open( "GET", aUrl, true );            
+	        anHttpRequest.send( null );
+	    }
+	}
+	function getNews(){
+	var client = new HttpClient();
+	client.get('https://newsapi.org/v2/top-headlines?country=us&apiKey=85512de1f9b34b51b2942c9ba779eb8e', function(response) {
+		const obj = JSON.parse(response);
+		console.log(obj.status);
+		console.log(obj.totalResults);
+		var newsbox = document.getElementById('newsbox');
+		for (var i=0;i<obj.articles.length;i++) {
+            //alert(obj.articles[i].title);
+            div.innerHTML += obj.articles[i].title+"<br/>";
+       }
+	});
+	}
+	</script>
+</body>
